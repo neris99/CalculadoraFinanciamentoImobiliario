@@ -40,6 +40,57 @@ public class InterfaceUsuario {
         } while (taxa <= 0);
         return taxa;
     }
+
+    public double pedirTamanhoAreaConstruida() {
+        double tamanho;
+        do {
+            System.out.print("Qual o tamanho da área construída? ");
+            tamanho = scanner.nextDouble();
+            if (tamanho <= 0) {
+                System.out.println("O tamanho da área construída deve ser positivo.");
+            }
+        } while (tamanho <= 0);
+        return tamanho;
+    }
+
+    public double pedirTamanhoTerreno() {
+        double tamanho;
+        do {
+            System.out.print("Qual o tamanho do terreno? ");
+            tamanho = scanner.nextDouble();
+            if (tamanho <= 0) {
+                System.out.println("O tamanho do terreno deve ser positivo.");
+            }
+        } while (tamanho <= 0);
+        return tamanho;
+    }
+
+    public int pedirNumVagasGaragem() {
+        int vagas;
+        do {
+            System.out.print("Quantas vagas de garagem? ");
+            vagas = scanner.nextInt();
+            if (vagas < 0) {
+                System.out.println("O número de vagas de garagem deve ser não negativo.");
+            }
+        } while (vagas < 0);
+        return vagas;
+    }
+
+    public int pedirNumAndar() {
+        int andar;
+        do {
+            System.out.print("Qual o número do andar? ");
+            andar = scanner.nextInt();
+            if (andar <= 0) {
+                System.out.println("O número do andar deve ser positivo.");
+            }
+        } while (andar <= 0);
+        return andar;
+    }
+
+    public String pedirTipoZona() {
+        System.out.print("Qual o tipo de zona (residencial/comercial)? ");
+        return scanner.next();
+    }
 }
-
-
