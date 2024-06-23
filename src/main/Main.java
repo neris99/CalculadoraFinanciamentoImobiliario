@@ -1,56 +1,39 @@
-import java.util.Scanner;
+package main;
 
-class Financiamento{
-    // Atributos
+import modelo.Financiamento;
+import util.InterfaceUsuario;
 
-    double valorImovel;
-
-    int prazoFinanciamento;
-
-    double taxaJurosAnual;
-
-    // Construtor
-    Financiamento(double valorDesejadoImovel, int prazoFinanciamentoAnos, double taxaJurosAnual){
-        this.valorImovel = valorDesejadoImovel;
-        this.prazoFinanciamento = prazoFinanciamentoAnos;
-        this.taxaJurosAnual = taxaJurosAnual;
-    }
-
-    // Metodos
-    double calcularPagamentoMensal(){
-        return (this.valorImovel / (this.prazoFinanciamento * 12)) * (1 + (this.taxaJurosAnual / 12));
-    }
-
-    double calcularTotalPagamento(){
-        return calcularPagamentoMensal() * this.prazoFinanciamento * 12;
-    }
-}
-
-class InterfaceUsuario{
-    Scanner scanner = new Scanner(System.in);
-
-    double pedirValorImovel(){
-        System.out.print("Qual valor do imóvel?");
-        double valor = scanner.nextDouble();
-        return valor;
-    }
-
-    int pedirPrazoFinanciamento(){
-        System.out.print("Qual prazo do Financiamento?");
-        int prazo = scanner.nextInt();
-        return prazo;
-    }
-
-    double pedirTaxaJuros(){
-        System.out.print("Qual será a Taxa de Juros para esse Financamento?");
-        double taxa = scanner.nextDouble();
-        return taxa;
-    }
-
-}
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        List<Financiamento> listaDeFinanciamento = new ArrayList<>();
+
+        // Adicionando quatro financiamentos
+        listaDeFinanciamento.add(new Financiamento(200000, 30, 0.05));
+        listaDeFinanciamento.add(new Financiamento(300000, 30, 0.05));
+        listaDeFinanciamento.add(new Financiamento(150000, 30, 0.05));
+        listaDeFinanciamento.add(new Financiamento(250000, 30, 0.05));
+
+        // Mostrando os detalhes de cada financiamento
+        for (int i = 0; i < listaDeFinanciamento.size(); i++) {
+            Financiamento financiamento = listaDeFinanciamento.get(i);
+            System.out.println("Financiamento " + (i + 1) + " – valor do imóvel: R$ " + financiamento.getValorImovel() + ", valor do financiamento: R$ " + financiamento.calcularTotalPagamento());
+        }
+
+        // Calculando os valores totais
+        double totalValorImoveis = 0;
+        double totalValorFinanciamentos = 0;
+
+        for (Financiamento financiamento : listaDeFinanciamento) {
+            totalValorImoveis += financiamento.getValorImovel();
+            totalValorFinanciamentos += financiamento.calcularTotalPagamento();
+        }
+
+        // Mostrando os resultados na tela
+        System.out.println("Total de todos os imóveis: R$ " + totalValorImoveis);
+        System.out.println("Total de todos os financiamentos: R$ " + totalValorFinanciamentos);
 
         InterfaceUsuario interfaceUsuario = new InterfaceUsuario();
 
@@ -59,5 +42,9 @@ public class Main {
         double valorImovel = interfaceUsuario.pedirValorImovel();
 
         Financiamento novoFinanciamento = new Financiamento(valorImovel, prazoFinanciamentoEmAnos, taxaJuros);
+        listaDeFinanciamento.add(novoFinanciamento);
+
+        System.out.println("Detalhes do novo financiamento:");
+        novoFinanciamento.mostrarDadosFinanciamento();
     }
 }
