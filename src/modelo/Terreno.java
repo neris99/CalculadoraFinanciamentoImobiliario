@@ -10,11 +10,6 @@ public class Terreno extends Financiamento {
 
     @Override
     public double calcularParcela() {
-        // Implementação do cálculo específico para Terreno
         return (valorImovel * (1 + juros)) / (anos * 12);
-    }
-
-    public String getTipoZona() {
-        return tipoZona;
     }
 }

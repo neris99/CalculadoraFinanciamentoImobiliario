@@ -1,26 +1,18 @@
 package modelo;
 
 public class Apartamento extends Financiamento {
-    private int numVagasGaragem;
-    private int numAndar;
+    private int vagasGaragem;
+    private int numeroAndar;
 
-    public Apartamento(double valorImovel, double juros, int anos, int numVagasGaragem, int numAndar) {
+    public Apartamento(double valorImovel, double juros, int anos, int vagasGaragem, int numeroAndar) {
         super(valorImovel, juros, anos);
-        this.numVagasGaragem = numVagasGaragem;
-        this.numAndar = numAndar;
+        this.vagasGaragem = vagasGaragem;
+        this.numeroAndar = numeroAndar;
     }
 
     @Override
     public double calcularParcela() {
-        // Implementação do cálculo específico para Apartamento
         return (valorImovel * (1 + juros)) / (anos * 12);
     }
-
-    public int getNumVagasGaragem() {
-        return numVagasGaragem;
-    }
-
-    public int getNumAndar() {
-        return numAndar;
-    }
 }
+

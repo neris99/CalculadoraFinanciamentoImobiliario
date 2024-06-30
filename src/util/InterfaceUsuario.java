@@ -1,96 +1,116 @@
 package util;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class InterfaceUsuario {
     private Scanner scanner = new Scanner(System.in);
 
     public double pedirValorImovel() {
-        double valor;
-        do {
-            System.out.print("Qual valor do imóvel? ");
-            valor = scanner.nextDouble();
-            if (valor <= 0) {
-                System.out.println("O valor do imóvel deve ser positivo.");
+        double valor = 0;
+        boolean valido = false;
+        while (!valido) {
+            try {
+                System.out.print("Qual valor do imóvel? ");
+                valor = scanner.nextDouble();
+                if (valor <= 0) {
+                    System.out.println("O valor do imóvel deve ser positivo.");
+                } else {
+                    valido = true;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Digite um número.");
+                scanner.next();
             }
-        } while (valor <= 0);
+        }
         return valor;
     }
 
     public int pedirPrazoFinanciamento() {
-        int prazo;
-        do {
-            System.out.print("Qual prazo do Financiamento (em anos)? ");
-            prazo = scanner.nextInt();
-            if (prazo <= 0) {
-                System.out.println("O prazo do financiamento deve ser positivo.");
+        int prazo = 0;
+        boolean valido = false;
+        while (!valido) {
+            try {
+                System.out.print("Qual prazo do financiamento (em anos)? ");
+                prazo = scanner.nextInt();
+                if (prazo <= 0) {
+                    System.out.println("O prazo do financiamento deve ser positivo.");
+                } else {
+                    valido = true;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Digite um número.");
+                scanner.next();
             }
-        } while (prazo <= 0);
+        }
         return prazo;
     }
 
     public double pedirTaxaJuros() {
-        double taxa;
-        do {
-            System.out.print("Qual será a Taxa de Juros para esse Financiamento? ");
-            taxa = scanner.nextDouble();
-            if (taxa <= 0) {
-                System.out.println("A taxa de juros deve ser positiva.");
+        double taxa = 0;
+        boolean valido = false;
+        while (!valido) {
+            try {
+                System.out.print("Qual será a taxa de juros para esse financiamento? ");
+                taxa = scanner.nextDouble();
+                if (taxa <= 0) {
+                    System.out.println("A taxa de juros deve ser positiva.");
+                } else {
+                    valido = true;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Digite um número.");
+                scanner.next();
             }
-        } while (taxa <= 0);
+        }
         return taxa;
     }
 
-    public double pedirTamanhoAreaConstruida() {
-        double tamanho;
-        do {
-            System.out.print("Qual o tamanho da área construída? ");
-            tamanho = scanner.nextDouble();
-            if (tamanho <= 0) {
-                System.out.println("O tamanho da área construída deve ser positivo.");
+    public int pedirOpcao() {
+        int opcao = 0;
+        boolean valido = false;
+        while (!valido) {
+            try {
+                System.out.println("Escolha o tipo de financiamento:");
+                System.out.println("1. Casa");
+                System.out.println("2. Apartamento");
+                System.out.println("3. Terreno");
+                opcao = scanner.nextInt();
+                if (opcao < 1 || opcao > 3) {
+                    System.out.println("Opção inválida. Escolha entre 1, 2 ou 3.");
+                } else {
+                    valido = true;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida. Digite um número.");
+                scanner.next();
             }
-        } while (tamanho <= 0);
-        return tamanho;
+        }
+        return opcao;
+    }
+
+    public double pedirAreaConstruida() {
+        System.out.print("Área construída: ");
+        return scanner.nextDouble();
     }
 
     public double pedirTamanhoTerreno() {
-        double tamanho;
-        do {
-            System.out.print("Qual o tamanho do terreno? ");
-            tamanho = scanner.nextDouble();
-            if (tamanho <= 0) {
-                System.out.println("O tamanho do terreno deve ser positivo.");
-            }
-        } while (tamanho <= 0);
-        return tamanho;
+        System.out.print("Tamanho do terreno: ");
+        return scanner.nextDouble();
     }
 
-    public int pedirNumVagasGaragem() {
-        int vagas;
-        do {
-            System.out.print("Quantas vagas de garagem? ");
-            vagas = scanner.nextInt();
-            if (vagas < 0) {
-                System.out.println("O número de vagas de garagem deve ser não negativo.");
-            }
-        } while (vagas < 0);
-        return vagas;
+    public int pedirVagasGaragem() {
+        System.out.print("Número de vagas da garagem: ");
+        return scanner.nextInt();
     }
 
-    public int pedirNumAndar() {
-        int andar;
-        do {
-            System.out.print("Qual o número do andar? ");
-            andar = scanner.nextInt();
-            if (andar <= 0) {
-                System.out.println("O número do andar deve ser positivo.");
-            }
-        } while (andar <= 0);
-        return andar;
+    public int pedirNumeroAndar() {
+        System.out.print("Número do andar: ");
+        return scanner.nextInt();
     }
 
     public String pedirTipoZona() {
-        System.out.print("Qual o tipo de zona (residencial/comercial)? ");
+        System.out.print("Tipo de zona (residencial/comercial): ");
         return scanner.next();
     }
 }

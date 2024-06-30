@@ -16,12 +16,5 @@ public abstract class Financiamento {
     public double getValorImovel() {
         return valorImovel;
     }
-
-    public double getJuros() {
-        return juros;
-    }
-
-    public int getAnos() {
-        return anos;
-    }
 }
+
