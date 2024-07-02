@@ -1,8 +1,10 @@
 package main;
 
 import modelo.*;
-import util.*;
+import util.DescontoMaiorDoQueJurosException;
+import util.InterfaceUsuario;
 
+import java.io.*;
 import java.util.ArrayList;
 
 public class Main {
@@ -11,50 +13,53 @@ public class Main {
         InterfaceUsuario interfaceUsuario = new InterfaceUsuario();
         Financiamento financiamento = null;
 
-        double valor = interfaceUsuario.pedirValorImovel();
-        double juros = interfaceUsuario.pedirTaxaJuros();
-        int anos = interfaceUsuario.pedirPrazoFinanciamento();
-        int opcao = interfaceUsuario.pedirOpcao();
-
-        switch (opcao) {
-            case 1:
-                double areaConstruida = interfaceUsuario.pedirAreaConstruida();
-                double tamanhoTerreno = interfaceUsuario.pedirTamanhoTerreno();
-                financiamento = new Casa(valor, juros, anos, areaConstruida, tamanhoTerreno);
-                break;
-            case 2:
-                int vagasGaragem = interfaceUsuario.pedirVagasGaragem();
-                int numeroAndar = interfaceUsuario.pedirNumeroAndar();
-                financiamento = new Apartamento(valor, juros, anos, vagasGaragem, numeroAndar);
-                break;
-            case 3:
-                String tipoZona = interfaceUsuario.pedirTipoZona();
-                financiamento = new Terreno(valor, juros, anos, tipoZona);
-                break;
-            default:
-                System.out.println("Opção inválida.");
-                return;
+        // Captura os dados do financiamento
+        try {
+            financiamento = interfaceUsuario.capturarDadosFinanciamento();
+        } catch (Exception e) {
+            System.out.println("Erro ao capturar dados do financiamento: " + e.getMessage());
+            return;
         }
 
-        if (financiamento != null) {
-            financiamentos.add(financiamento);
-            imprimirDetalhesFinanciamento(financiamento);
+        try {
+            if (financiamento != null) {
+                financiamentos.add(financiamento);
+                imprimirDetalhesFinanciamento(financiamento);
+            }
+        } catch (DescontoMaiorDoQueJurosException e) {
+            System.out.println("Erro ao calcular financiamento: " + e.getMessage());
         }
 
-        double somaImoveis = 0;
-        double somaParcelas = 0;
-        for (Financiamento f : financiamentos) {
-            somaImoveis += f.getValorImovel();
-            somaParcelas += f.calcularParcela();
-        }
+        // Salvando dados em arquivo de texto
+        salvarFinanciamentosTexto(financiamentos);
 
-        System.out.println("Soma dos valores dos imóveis: " + somaImoveis);
-        System.out.println("Soma dos valores das parcelas: " + somaParcelas);
+        // Lendo dados do arquivo de texto
+        lerFinanciamentosTexto();
     }
 
-    private static void imprimirDetalhesFinanciamento(Financiamento financiamento) {
-        System.out.println("Detalhes do financiamento:");
-        System.out.println("Valor do imóvel: " + financiamento.getValorImovel());
-        System.out.println("Valor da parcela: " + financiamento.calcularParcela());
+    public static void imprimirDetalhesFinanciamento(Financiamento financiamento) throws DescontoMaiorDoQueJurosException {
+        System.out.println("Detalhes do Financiamento: " + financiamento);
+        System.out.println("Parcela Mensal: " + financiamento.calcularParcela());
+    }
+
+    public static void salvarFinanciamentosTexto(ArrayList<Financiamento> financiamentos) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("financiamentos.txt"))) {
+            for (Financiamento financiamento : financiamentos) {
+                writer.println(financiamento.toString());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void lerFinanciamentosTexto() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("financiamentos.txt"))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                System.out.println(linha);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

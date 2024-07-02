@@ -1,20 +1,36 @@
 package modelo;
 
 public abstract class Financiamento {
-    protected double valorImovel;
-    protected double juros;
-    protected int anos;
+    private double valorImovel;
+    private double taxaJuros;
+    private int prazo; // Prazo agora é em anos
 
-    public Financiamento(double valorImovel, double juros, int anos) {
+    public Financiamento(double valorImovel, double taxaJuros, int prazo) {
         this.valorImovel = valorImovel;
-        this.juros = juros;
-        this.anos = anos;
+        this.taxaJuros = taxaJuros;
+        this.prazo = prazo;
     }
-
-    public abstract double calcularParcela();
 
     public double getValorImovel() {
         return valorImovel;
     }
-}
 
+    public double getTaxaJuros() {
+        return taxaJuros;
+    }
+
+    public int getPrazo() {
+        return prazo * 12; // Convertendo anos para meses
+    }
+
+    public abstract double calcularParcela() throws util.DescontoMaiorDoQueJurosException;
+
+    @Override
+    public String toString() {
+        return "Financiamento{" +
+                "valorImovel=" + valorImovel +
+                ", taxaJuros=" + taxaJuros +
+                ", prazo=" + prazo +
+                '}';
+    }
+}
